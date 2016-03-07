@@ -1,38 +1,35 @@
 package algorithms;
 
-public class StukjeSlang<X, Y> {
+public class StukjeSlang {
 	
-	private X x;
-	private Y y;
-	private StukjeSlang<X, Y> next;
+	private int x;
+	private int y;
+	private StukjeSlang next;
 	
-	public StukjeSlang(X x, Y y) {
+	public StukjeSlang(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	public X get(){
+	public int getx(){
 		return x;
 	}
 	
-	public Y get(){
+	public int gety(){
 		return y;
 	}
 	
-	public void setNext(StukjeSlang<X, Y> volgendStukje){
+	public void setNext(StukjeSlang volgendStukje){
 		next = volgendStukje;
 	}
 	
-	public StukjeSlang<X, Y> next(){
+	public StukjeSlang next(){
 		return next;
-	}
-	public int hashCode() {
-		return 41 * (41 * x.hashCode()) + y.hashCode() + next.hashCode();
 	}
 	
 	public boolean equals(Object obj){
-		if(obj instanceof StukjeSlang<?, ?>){
-			StukjeSlang<X, Y> that = (StukjeSlang<X, Y>) obj;
+		if(obj instanceof StukjeSlang){
+			StukjeSlang that = (StukjeSlang) obj;
 			return (this.x == that.x && this.y == that.y && this.next == that.next);
 					
 		}
