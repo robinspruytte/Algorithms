@@ -35,6 +35,7 @@ public class List<E> {
 			
 			return this;
 		}
+		
 		private Node<E> last(Node<E> cursor){
 			if (cursor.next() == null)
 				return cursor;
