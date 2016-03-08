@@ -1,18 +1,12 @@
 package algorithms;
 
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class SnakeGame {
 	private final int bordhoogte = 10;
 	private final int bordbreedte = 10;
 	private int size = 1;
 	private boolean slangOfNiet = false;
-	private boolean gameOver = false;
-	private String richting = "";
-	
-	private int spelbord[][] = new int[bordhoogte][bordbreedte];
 	
 	private StukjeSlang food;
 	private StukjeSlang newHead;
@@ -20,18 +14,9 @@ public class SnakeGame {
 	private StukjeSlang cursor;		
 	private StukjeSlang head; 
 	
-	private List<StukjeSlang> slang;
-	
 	public SnakeGame(){
 		head = new StukjeSlang(5, 5);
-		food = new StukjeSlang((int) ((Math.random()*8)+1), (int) ((Math.random()*8)+1));
-		slangOfNiet = false;
-	}
-	
-	public void prepend(StukjeSlang stukje){
-		stukje.setNext(head);
-		head = stukje;
-		size++;			
+		food = new StukjeSlang((int) (Math.random()*8+1), (int) (Math.random()*8+1));
 	}
 	
 	public StukjeSlang voorlaatste(StukjeSlang cursor){
@@ -45,6 +30,17 @@ public class SnakeGame {
 			return cursor;
 		}
 		return voorlaatste(cursor.next());
+	}
+	
+	public void beweeg() {
+		oldHead = head;
+		head = newHead;
+		head.setNext(oldHead);
+		if ((head.getx() != food.getx()) || (head.gety() != food.gety())) { 
+			voorlaatste(head).setNext(null);
+		}
+		nieuwFood();
+		System.out.println(this);
 	}
 	
 	public void nieuwFood() {
@@ -67,93 +63,70 @@ public class SnakeGame {
 	
 	public void rechts(){
 		newHead = new StukjeSlang(head.getx()+1, head.gety());
-		oldHead = head;
-		head = newHead;
-		head.setNext(oldHead);
-		if (newHead.getx() != food.getx() || newHead.gety() != food.gety()) { 
-			voorlaatste(head).setNext(null);
-		}
-		toString();
-		gameOver();
+		beweeg();
 	}
+	
 	
 	public void links(){
 		newHead = new StukjeSlang(head.getx()-1, head.gety());
-		oldHead = head;
-		head = newHead;
-		head.setNext(oldHead);
-		if (newHead.getx() != food.getx() || newHead.gety() != food.gety()) { 
-			voorlaatste(head).setNext(null);
-		}
-		toString();
-		gameOver();
+		beweeg();
 	}
 	
 	public void boven(){
-		newHead = new StukjeSlang(head.getx(), head.gety()+1);
-		oldHead = head;
-		head = newHead;
-		head.setNext(oldHead);
-		if (newHead.getx() != food.getx() || newHead.gety() != food.gety()) { 
-			voorlaatste(head).setNext(null);
-		}
-		toString();
-		gameOver();
+		newHead = new StukjeSlang(head.getx(), head.gety()-1);
+		beweeg();
 	}
 	
 	public void onder(){
-		newHead = new StukjeSlang(head.getx(), head.gety()-1);
-		oldHead = head;
-		head = newHead;
-		head.setNext(oldHead);
-		if (newHead.getx() != food.getx() || newHead.gety() != food.gety()) {
-			voorlaatste(head).setNext(null);
-		}
-		toString();
-		gameOver();
+		newHead = new StukjeSlang(head.getx(), head.gety()+1);
+		beweeg();
 	}
 	
-	public boolean gameOver(){
-		gameOver = false;
+	public void gameOver(){
 		if (head.getx() == 0 || head.getx() == bordbreedte-1) {
-			gameOver = true;
+			System.out.println(" GAME OVER!!!! ");
+			System.out.println(" GAME OVER!!!! ");
+			System.out.println(" GAME OVER!!!! ");
 		}
 		else if (head.gety() == 0 || head.gety() == bordhoogte-1) {
-			gameOver = true;
+			System.out.println(" GAME OVER!!!! ");
+			System.out.println(" GAME OVER!!!! ");
+			System.out.println(" GAME OVER!!!! ");
 		}
 		else {
-			cursor = head.next();
-			for (int a = 1 ; a <= size-1 ; a++){
+			cursor = head;
+			while (cursor.next() != null){
+				cursor = cursor.next();
 				if (head.getx() == cursor.getx() && head.gety() == cursor.gety()){
-					gameOver = true;
+					System.out.println(" GAME OVER!!!! ");
+					System.out.println(" GAME OVER!!!! ");
+					System.out.println(" GAME OVER!!!! ");
 				}
-			}
-			cursor = cursor.next();
+			}			
 		}
-			return gameOver;
 	}
 	
 	public String toString() {
 		StringBuilder doolhof = new StringBuilder("\n");
-		for(int y = 0; y < bordhoogte; y++) {
-			for (int x = 0; x < bordbreedte; x++) {
-				if(y == 0 || y == bordhoogte-1) {
+		for(int rij = 0; rij < bordhoogte; rij++) {
+			for (int kolom = 0; kolom < bordbreedte; kolom++) {
+				if(rij == 0 || rij == bordhoogte-1) {
 					doolhof.append(" - ");
 				}
-				else if(x == 0 || x == bordbreedte-1) {
+				else if(kolom == 0 || kolom == bordbreedte-1) {
 					doolhof.append(" | ");
 				}
-				else if(x == food.getx() && y == food.gety()){
-					doolhof.append(" o ");
-				}
-				else if(x == head.getx() && y == head.gety()){ 
+				else if(kolom == head.getx() && rij == head.gety()){ 
 					doolhof.append(" * ");
+				}
+				else if(kolom == food.getx() && rij == food.gety()){
+					doolhof.append(" o ");
 				}
 				else {					
 					slangOfNiet = false;
 					cursor = head;
 					while (cursor.next() != null){
-						if (x == cursor.getx() && y == cursor.gety()){ slangOfNiet = true;}
+						if (kolom == cursor.next().getx() && rij == cursor.next().gety()){ slangOfNiet = true ;}
 						cursor = cursor.next();
 					}
 					if (slangOfNiet == true){ 
@@ -169,46 +142,29 @@ public class SnakeGame {
 	
 	public static void main(String[] args) {
 		SnakeGame spel = new SnakeGame();
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				switch(spel.richting) {
-					case "left":
-						spel.links();
-						break;
-					case "rechts":
-						spel.rechts();
-						break;
-					case "boven":
-						spel.boven();
-						break;
-					case "onder":
-						spel.onder();
-						break;
-				}
-				System.out.print(spel.toString());
-			}
-		}, 1000, 1000);
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.println("Besturen via toetsen 1,2,3,5 (pijltjes)");
+		System.out.println("Besturen via toetsen zqsd (pijltjes) + enter");
 		System.out.print(spel.toString());
 		
 		while(true) {
 			String input = scanner.next();
 			switch(input) {
 				case "q":
-					spel.richting = "links";
+					spel.links();
+					spel.gameOver();
 					break;
 				case "d":
-					spel.richting = "rechts";
+					spel.rechts();
+					spel.gameOver();
 					break;
 				case "z":
-					spel.richting = "boven";
+					spel.boven();
+					spel.gameOver();
 					break;
 				case "s":
-					spel.richting = "onder";
+					spel.onder();
+					spel.gameOver();
 					break;
 			}
 		}
