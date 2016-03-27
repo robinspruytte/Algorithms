@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.Course_Exercises;
 
 public class Node<E> {
 	private E element;

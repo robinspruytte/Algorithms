@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.Snake;
 
 public class StukjeSlang {
 	

@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.FourInARow;
 
 import static org.junit.Assert.*;
 

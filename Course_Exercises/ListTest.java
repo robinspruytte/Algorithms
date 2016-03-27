@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.Course_Exercises;
 
 import static org.junit.Assert.*;
 

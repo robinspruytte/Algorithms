@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.Course_Exercises;
 
 public class List<E> {
 
