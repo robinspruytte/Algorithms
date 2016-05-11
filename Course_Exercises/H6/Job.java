@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.Course_Exercises.H6;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;

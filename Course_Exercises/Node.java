@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.Course_Exercises;
 /**
  * Node class for a singly linked list
  *
